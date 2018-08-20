@@ -20,7 +20,7 @@ object SubmissionManager {
     private val TAG = SubmissionManager::class.java.simpleName
     private val BASE_API_URL = " https://us-central1-emailstats-2b046.cloudfunctions.net"
 
-    fun uploadStats(context: Context) {
+    internal fun uploadStats(context: Context) {
         if(!hasNetworkConnection(context)) {
             Log.d(TAG, "No network connected, cannot upload..")
             return
@@ -58,12 +58,12 @@ object SubmissionManager {
             outputStream.write(postData)
             outputStream.flush()
 
-            Log.d(TAG, "Error code: " + connection.responseCode)
+            Log.d(TAG, "Response code: " + connection.responseCode)
             if (connection.responseCode != HttpURLConnection.HTTP_OK) {
                 val reader: BufferedReader = BufferedReader(InputStreamReader(connection.errorStream))
                 val output: String = reader.readLine()
 
-                Log.d(TAG,"There was error while connecting the chat $output")
+                Log.d(TAG,"Api threw error $output")
             }
 
         }
@@ -76,7 +76,7 @@ object SubmissionManager {
         })
     }
 
-    fun hasNetworkConnection(context: Context): Boolean {
+    internal fun hasNetworkConnection(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
         return netInfo != null && netInfo.isConnectedOrConnecting

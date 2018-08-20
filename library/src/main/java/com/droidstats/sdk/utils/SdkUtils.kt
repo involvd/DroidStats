@@ -26,7 +26,7 @@ internal object SdkUtils {
      * @packageName being null retrieves all
      */
     @JvmStatic
-    open fun getMetaDataKeyForPackages(context: Context, key: String, packageName: String? = null): HashMap<String, String> {
+    internal fun getMetaDataKeyForPackages(context: Context, key: String, packageName: String? = null): HashMap<String, String> {
         val i = Intent("android.intent.action.MAIN")
         i.addCategory("android.intent.category.LAUNCHER")
         if(!TextUtils.isEmpty(packageName))
@@ -43,7 +43,7 @@ internal object SdkUtils {
     }
 
     @JvmStatic
-    open fun getAppIdForPackage(context: Context, packageName: String): String? {
+    internal fun getAppIdForPackage(context: Context, packageName: String): String? {
         val map = getMetaDataKeyForPackages(context, META_ID, packageName)
         if(map.isEmpty())
             return null
@@ -52,7 +52,7 @@ internal object SdkUtils {
     }
 
     @JvmStatic
-    open fun getApiKeyForPackage(context: Context, packageName: String): String? {
+    internal fun getApiKeyForPackage(context: Context, packageName: String): String? {
         val map = getMetaDataKeyForPackages(context, META_KEY, packageName)
         if(map.isEmpty())
             return null
@@ -63,7 +63,7 @@ internal object SdkUtils {
 //                    Log.d(TAG, "SHA1: " + Base64.encode("3C:13:C4:E2:7E:BB:CF:56:6B:15:86:7E:C8:4D:A9:E0:91:97:D7:A8".toByteArray(), 0))
 
     @JvmStatic
-    fun getCertificateSHA1Fingerprint(context: Context, packageName: String): String? {
+    internal fun getCertificateSHA1Fingerprint(context: Context, packageName: String): String? {
         val pm = context.getPackageManager()
         val flags = PackageManager.GET_SIGNATURES
         var packageInfo: PackageInfo? = null
@@ -99,7 +99,7 @@ internal object SdkUtils {
         return str.toString()
     }
 
-    fun getUniqueId(context: Context): String {
+    internal fun getUniqueId(context: Context): String {
         var uniqueId = PrefUtils.readStringPref(context, UNIQUE_ID)
         if(TextUtils.isEmpty(uniqueId)) {
             uniqueId = UUID.randomUUID().toString()
@@ -108,7 +108,7 @@ internal object SdkUtils {
         return uniqueId
     }
 
-    fun buildMap(context: Context): HashMap<String, HashMap<String, Long>> {
+    internal fun buildMap(context: Context): HashMap<String, HashMap<String, Long>> {
         val statMap = PrefUtils.getAll(context)
         statMap.remove(UNIQUE_ID)
 
