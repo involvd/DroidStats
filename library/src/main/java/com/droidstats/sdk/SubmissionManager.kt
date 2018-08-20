@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets
 object SubmissionManager {
 
     private val TAG = SubmissionManager::class.java.simpleName
-    private val BASE_API_URL = "https://us-central1-droidstats-app.cloudfunctions.net"
+    private val BASE_API_URL = " https://us-central1-emailstats-2b046.cloudfunctions.net"
 
     fun uploadStats(context: Context) {
         if(!hasNetworkConnection(context)) {
