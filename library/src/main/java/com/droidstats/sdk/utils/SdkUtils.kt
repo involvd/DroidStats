@@ -25,44 +25,23 @@ internal object SdkUtils {
     /**
      * @packageName being null retrieves all
      */
-    @JvmStatic
-    internal fun getMetaDataKeyForPackages(context: Context, key: String, packageName: String? = null): HashMap<String, String> {
+    internal fun getMetaDataKeyForPackages(context: Context): HashMap<String, String> {
         val i = Intent("android.intent.action.MAIN")
         i.addCategory("android.intent.category.LAUNCHER")
-        if(!TextUtils.isEmpty(packageName))
-            i.`package` = packageName
+        i.`package` = context.packageName
         val list = context.packageManager.queryIntentActivities(i, PackageManager.GET_META_DATA)
         val appMap = HashMap<String, String>()
         if (list?.isNotEmpty() == true) {
             for (packageInfo in list) {
-                if (packageInfo?.activityInfo?.applicationInfo?.metaData?.containsKey(key) == true)
-                    appMap.put(packageInfo.activityInfo.packageName, packageInfo.activityInfo.applicationInfo.metaData.getString(key))
+                if (packageInfo?.activityInfo?.applicationInfo?.metaData?.containsKey(META_KEY) == true)
+                    appMap.put(packageInfo.activityInfo.packageName, packageInfo.activityInfo.applicationInfo.metaData.getString(META_KEY))
+                if (packageInfo?.activityInfo?.applicationInfo?.metaData?.containsKey(META_ID) == true)
+                    appMap.put(packageInfo.activityInfo.packageName, packageInfo.activityInfo.applicationInfo.metaData.getString(META_ID))
             }
         }
         return appMap;
     }
 
-    @JvmStatic
-    internal fun getAppIdForPackage(context: Context, packageName: String): String? {
-        val map = getMetaDataKeyForPackages(context, META_ID, packageName)
-        if(map.isEmpty())
-            return null
-        else
-            return map.get(packageName)
-    }
-
-    @JvmStatic
-    internal fun getApiKeyForPackage(context: Context, packageName: String): String? {
-        val map = getMetaDataKeyForPackages(context, META_KEY, packageName)
-        if(map.isEmpty())
-            return null
-        else
-            return map.get(packageName)
-    }
-
-//                    Log.d(TAG, "SHA1: " + Base64.encode("3C:13:C4:E2:7E:BB:CF:56:6B:15:86:7E:C8:4D:A9:E0:91:97:D7:A8".toByteArray(), 0))
-
-    @JvmStatic
     internal fun getCertificateSHA1Fingerprint(context: Context, packageName: String): String? {
         val pm = context.getPackageManager()
         val flags = PackageManager.GET_SIGNATURES

@@ -46,6 +46,10 @@ internal object PrefUtils {
         return getSharedPrefs(context).all
     }
 
+    internal fun clearAll(context: Context) {
+        return getSharedPrefs(context).edit().clear().apply()
+    }
+
     internal fun removePrefs(context: Context, prefs: Array<String>) {
         val editor = getSharedPrefs(context).edit()
         for (pref in prefs)
