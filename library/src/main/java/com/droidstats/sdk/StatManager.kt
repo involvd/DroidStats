@@ -2,6 +2,7 @@ package com.droidstats.sdk
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import com.droidstats.sdk.utils.PrefUtils
 import com.droidstats.sdk.utils.SdkUtils
 
@@ -9,6 +10,7 @@ import com.droidstats.sdk.utils.SdkUtils
 object StatManager {
 
     internal const val SPLITTER: String = "::"
+    private val TAG = StatManager::class.java.simpleName
     internal const val PREV_INSTALL = "PREV_INSTALL"
     internal const val NEW_INSTALL = "NEW_INSTALL"
 
@@ -28,6 +30,7 @@ object StatManager {
                 return
             count = PrefUtils.readLongPref(context, key)
         }
+        Log.d(TAG, "Logged $name of $customType..")
         return PrefUtils.writeLongPref(context, key, count + 1)
     }
 
@@ -47,6 +50,7 @@ object StatManager {
 //                prevVersionCode = PrefUtils.readLongPref(context, "updated_to")
 //            if(prevVersionCode > -1)
 //                name = "updated_to"
+            Log.d(TAG, "Logged app installed..")
             PrefUtils.writeLongPref(context, "INSTALL$SPLITTER$name", info.versionCode.toLong())
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
