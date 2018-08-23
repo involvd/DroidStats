@@ -34,9 +34,9 @@ internal object SdkUtils {
         if (list?.isNotEmpty() == true) {
             for (packageInfo in list) {
                 if (packageInfo?.activityInfo?.applicationInfo?.metaData?.containsKey(META_KEY) == true)
-                    appMap.put(packageInfo.activityInfo.packageName, packageInfo.activityInfo.applicationInfo.metaData.getString(META_KEY))
+                    appMap.put(META_KEY, packageInfo.activityInfo.applicationInfo.metaData.getString(META_KEY))
                 if (packageInfo?.activityInfo?.applicationInfo?.metaData?.containsKey(META_ID) == true)
-                    appMap.put(packageInfo.activityInfo.packageName, packageInfo.activityInfo.applicationInfo.metaData.getString(META_ID))
+                    appMap.put(META_ID, packageInfo.activityInfo.applicationInfo.metaData.getString(META_ID))
             }
         }
         return appMap;
