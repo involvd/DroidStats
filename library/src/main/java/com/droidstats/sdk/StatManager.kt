@@ -35,8 +35,6 @@ object StatManager {
     }
 
     internal fun logAppUpdated(context: Context) {
-        if(!SdkUtils.getCollectionEnabled(context))
-            return
         try {
             val info = context.getPackageManager().getPackageInfo(context.packageName, 0)
             var name = "installed"
