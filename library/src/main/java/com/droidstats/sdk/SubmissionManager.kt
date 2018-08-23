@@ -23,6 +23,8 @@ internal object SubmissionManager {
     private val BASE_API_URL = "https://us-central1-emailstats-2b046.cloudfunctions.net"
 
     internal fun uploadStats(context: Context) : Boolean {
+        if(!SdkUtils.getCollectionEnabled(context))
+            return false
         val serverURL: String = BASE_API_URL + "/uploadStats"
         val url = URL(serverURL)
         val connection = url.openConnection() as HttpURLConnection

@@ -12,6 +12,17 @@ internal object PrefUtils {
 
     private val PREFS = BuildConfig.APPLICATION_ID + "_Prefs"
 
+    internal fun writeBooleanPref(context: Context, name: String, b: Boolean) {
+        val editor = getSharedPrefs(context).edit()
+        editor.putBoolean(name, b)
+        editor.apply()
+    }
+
+    internal fun readBooleanPref(context: Context, name: String): Boolean {
+        val sp = getSharedPrefs(context)
+        return sp.getBoolean(name, false)
+    }
+
     internal fun writeLongPref(context: Context, name: String, l: Long) {
         val editor = getSharedPrefs(context).edit()
         editor.putLong(name, l)

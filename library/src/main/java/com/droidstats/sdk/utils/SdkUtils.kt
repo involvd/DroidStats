@@ -21,6 +21,7 @@ internal object SdkUtils {
     const val META_KEY = "com.droidstats.api_key"
 
     const val UNIQUE_ID = "uniqueId"
+    const val ENABLED = "droidStats_Enabled"
 
     /**
      * @packageName being null retrieves all
@@ -85,6 +86,10 @@ internal object SdkUtils {
             PrefUtils.writeStringPref(context, UNIQUE_ID, uniqueId);
         }
         return uniqueId
+    }
+
+    internal fun getCollectionEnabled(context: Context): Boolean {
+        return PrefUtils.readBooleanPref(context, ENABLED)
     }
 
     internal fun buildMap(context: Context): HashMap<String, HashMap<String, Long>> {

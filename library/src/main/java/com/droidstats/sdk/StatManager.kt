@@ -3,6 +3,7 @@ package com.droidstats.sdk
 import android.content.Context
 import android.content.pm.PackageManager
 import com.droidstats.sdk.utils.PrefUtils
+import com.droidstats.sdk.utils.SdkUtils
 
 
 object StatManager {
@@ -18,6 +19,8 @@ object StatManager {
 
     @JvmStatic
     fun logEvent(context: Context, customType: String, name: String, logOnce: Boolean = false) {
+        if(!SdkUtils.getCollectionEnabled(context))
+            return
         var count: Long = 0
         val key = "$customType$SPLITTER$name"
         if(PrefUtils.contains(context, key)) {
@@ -29,6 +32,8 @@ object StatManager {
     }
 
     internal fun logAppUpdated(context: Context) {
+        if(!SdkUtils.getCollectionEnabled(context))
+            return
         try {
             val info = context.getPackageManager().getPackageInfo(context.packageName, 0)
             var name = "installed"
@@ -54,6 +59,11 @@ object StatManager {
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
         SubmissionManager.testUpload(context)
+    }
+
+    @JvmStatic
+    fun enableCollection(context: Context, isEnabled: Boolean) {
+        PrefUtils.writeBooleanPref(context, SdkUtils.ENABLED, isEnabled);
     }
 
     enum class Type {
