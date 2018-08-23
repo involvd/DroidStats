@@ -50,7 +50,7 @@ object StatManager {
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
-        SubmissionManager.uploadStats(context)
+        SubmissionManager.testUpload(context)
     }
 
     enum class Type {

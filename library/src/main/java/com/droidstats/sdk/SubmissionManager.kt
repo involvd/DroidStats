@@ -2,8 +2,10 @@ package com.droidstats.sdk
 
 import android.content.Context
 import android.util.Log
+import com.droidstats.sdk.utils.PrefUtils
 import com.droidstats.sdk.utils.SdkUtils
 import com.firebase.jobdispatcher.*
+import kotlinx.coroutines.experimental.launch
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.DataOutputStream
@@ -86,6 +88,13 @@ internal object SubmissionManager {
                 .build();
 
         dispatcher.mustSchedule(myJob);
+    }
+
+    internal fun testUpload(context: Context) {
+        launch {
+            uploadStats(context)
+            PrefUtils.clearAll(context) //Clears regardless of success
+        }
     }
 
 }
