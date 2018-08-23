@@ -69,8 +69,8 @@ internal object SubmissionManager {
         connection.setRequestProperty("Content-Type", "application/json")
     }
 
-    val windowStart = TimeUnit.HOURS.toSeconds(23) as Int
-    val toleranceInterval = TimeUnit.HOURS.toSeconds(1) as Int
+    val windowStart = TimeUnit.HOURS.toSeconds(23).toInt()
+    val toleranceInterval = TimeUnit.HOURS.toSeconds(1).toInt()
 
     internal fun scheduleUpload(context: Context) {
         val dispatcher = FirebaseJobDispatcher(GooglePlayDriver(context));
