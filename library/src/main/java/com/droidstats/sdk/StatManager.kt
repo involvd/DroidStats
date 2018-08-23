@@ -11,10 +11,12 @@ object StatManager {
     internal const val PREV_INSTALL = "PREV_INSTALL"
     internal const val NEW_INSTALL = "NEW_INSTALL"
 
+    @JvmStatic
     fun logEvent(context: Context, type: Type, name: String, logOnce: Boolean = false) {
         return logEvent(context, type.name, name, logOnce)
     }
 
+    @JvmStatic
     fun logEvent(context: Context, customType: String, name: String, logOnce: Boolean = false) {
         var count: Long = 0
         val key = "$customType$SPLITTER$name"
@@ -46,6 +48,7 @@ object StatManager {
         }
     }
 
+    @JvmStatic
     fun testUpload(context: Context) {
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
         logEvent(context, Type.ACTIVITY_OPEN, "TestActivity")
