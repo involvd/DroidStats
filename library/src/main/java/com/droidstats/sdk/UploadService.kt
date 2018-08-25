@@ -13,7 +13,11 @@ class UploadService : JobService() {
     override fun onStartJob(job: JobParameters): Boolean {
         Log.d(TAG, "Started..")
         launch {
-            SubmissionManager.uploadStats(this@UploadService)
+            try {
+                SubmissionManager.uploadStats(this@UploadService)
+            } catch(e: Exception) {
+                e.printStackTrace()
+            }
             PrefUtils.clearAll(this@UploadService) //Clears regardless of success
             Log.d(TAG, "Finished..")
             jobFinished(job, false);
