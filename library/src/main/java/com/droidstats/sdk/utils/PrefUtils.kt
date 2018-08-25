@@ -61,10 +61,12 @@ internal object PrefUtils {
         return getSharedPrefs(context).edit().clear().apply()
     }
 
-    internal fun removePrefs(context: Context, prefs: Array<String>) {
+    internal fun removePrefs(context: Context, exceptions: ArrayList<String>) {
+        val prefs = getSharedPrefs(context)
         val editor = getSharedPrefs(context).edit()
-        for (pref in prefs)
-            editor.remove(pref)
+        for(key in prefs.all.keys)
+            if(!exceptions.contains(key))
+                editor.remove(key)
         editor.apply()
     }
 

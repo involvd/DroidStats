@@ -11,8 +11,9 @@ object StatManager {
 
     internal const val SPLITTER: String = "::"
     private val TAG = StatManager::class.java.simpleName
-    internal const val PREV_INSTALL = "PREV_INSTALL"
-    internal const val NEW_INSTALL = "NEW_INSTALL"
+    internal const val UPDATED_TO = "UPDATED_TO"
+    internal const val FIRST_INSTALL = "FIRST_INSTALL"
+    internal const val FIRST_INSTALL_SENT = "FIRST_INSTALL_SENT"
 
     @JvmStatic
     fun logEvent(context: Context, type: Type, name: String, logOnce: Boolean = false) {
@@ -37,19 +38,11 @@ object StatManager {
     internal fun logAppUpdated(context: Context) {
         try {
             val info = context.getPackageManager().getPackageInfo(context.packageName, 0)
-            var name = "installed"
-            //TODO: Logic to know if install was an update or a fresh install, probably requires persisting an install version code pref
-//            var prevVersionCode: Long = -1
-//            if(PrefUtils.contains(context, name)) {
-//                prevVersionCode = PrefUtils.readLongPref(context, name)
-//                PrefUtils.removePref(context, name)
-//            }
-//            if(PrefUtils.contains(context, "updated_to"))
-//                prevVersionCode = PrefUtils.readLongPref(context, "updated_to")
-//            if(prevVersionCode > -1)
-//                name = "updated_to"
+            var name = FIRST_INSTALL
+            if(PrefUtils.contains(context, FIRST_INSTALL))
+                name = UPDATED_TO
             Log.d(TAG, "Logged app installed..")
-            PrefUtils.writeLongPref(context, "INSTALL$SPLITTER$name", info.versionCode.toLong())
+            PrefUtils.writeLongPref(context, name, info.versionCode.toLong())
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
@@ -66,6 +59,13 @@ object StatManager {
     @JvmStatic
     fun enableCollection(context: Context, isEnabled: Boolean) {
         PrefUtils.writeBooleanPref(context, SdkUtils.ENABLED, isEnabled);
+    }
+
+    fun clear(context: Context) {
+        val exceptions = ArrayList<String>()
+        exceptions.add(FIRST_INSTALL)
+        exceptions.add(FIRST_INSTALL_SENT)
+        PrefUtils.removePrefs(context, exceptions)
     }
 
     enum class Type {

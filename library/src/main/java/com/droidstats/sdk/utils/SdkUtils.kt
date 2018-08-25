@@ -96,6 +96,12 @@ internal object SdkUtils {
         val statMap = PrefUtils.getAll(context)
         statMap.remove(UNIQUE_ID)
 
+        if(statMap.containsKey(StatManager.FIRST_INSTALL_SENT)) {
+            statMap.remove(StatManager.FIRST_INSTALL)
+            statMap.remove(StatManager.FIRST_INSTALL_SENT)
+        } else
+            PrefUtils.writeBooleanPref(context, StatManager.FIRST_INSTALL_SENT, true)
+
         val typeMap = HashMap<String, HashMap<String, Long>>()
 
         for(entry in statMap.entries)

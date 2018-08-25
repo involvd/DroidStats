@@ -95,7 +95,7 @@ internal object SubmissionManager {
     internal fun testUpload(context: Context) {
         launch {
             uploadStats(context)
-            PrefUtils.clearAll(context) //Clears regardless of success
+            StatManager.clear(context) //Clears regardless of success
         }
     }
 
