@@ -11,7 +11,7 @@ object StatManager {
 
     internal const val SPLITTER: String = "::"
     private val TAG = StatManager::class.java.simpleName
-    internal const val UPDATED_TO = "UPDATED_TO"
+    internal const val UPDATED_TO = "Updated to"
     internal const val FIRST_INSTALL = "FIRST_INSTALL"
     internal const val FIRST_INSTALL_SENT = "FIRST_INSTALL_SENT"
 
@@ -40,9 +40,8 @@ object StatManager {
             val info = context.getPackageManager().getPackageInfo(context.packageName, 0)
             var name = FIRST_INSTALL
             if(PrefUtils.contains(context, FIRST_INSTALL))
-                name = UPDATED_TO
-            Log.d(TAG, "Logged app installed..")
-            PrefUtils.writeLongPref(context, name, info.versionCode.toLong())
+                name = UPDATED_TO + "_" + info.versionCode.toLong()
+            logEvent(context, "Installs", name, true)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
